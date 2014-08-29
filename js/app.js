@@ -15,11 +15,18 @@ app.controller('SnafuController',["$scope", "$http",function($scope, $http){
      // $scope.text = 'hello - city me!';
     $scope.map = {center:
               {
-              latitude: 51,
-              longitude: 0.1275
+              latitude: 0,
+              longitude: 0
                 },
                 zoom: 11
               }
+    $scope.marker = {
+            id:0,
+            coords: {
+                latitude: 51,
+                longitude: 0.1275
+            }
+        }
     // $scope.getWeather("London");
 
    
@@ -52,14 +59,18 @@ app.controller('SnafuController',["$scope", "$http",function($scope, $http){
 
         httpCall = "http://api.openweathermap.org/data/2.5/weather?q="+city;
 
+     
+
         console.log(httpCall)
 
         $http.get(httpCall).success(function(data){
         console.log("here3")
+        console.log(data)
         $scope.weatherData = data;
         $scope.lon = data.coord.lon;
         $scope.lat = data.coord.lat;
         $scope.setCenter($scope.lat,$scope.lon)
+        $scope.setMarker($scope.lat,$scope.lon)
         console.log($scope.lat)
         $scope.weatherDescription = data.weather[0].description;
         $scope.temp = data.main.temp - 272;
@@ -97,6 +108,17 @@ app.controller('SnafuController',["$scope", "$http",function($scope, $http){
                 }
               }
 
+     $scope.setMarker = function(lat,lon){
+        $scope.marker = {
+            id:0,
+            coords: {
+                latitude: 51,
+                longitude: 0.1275
+            }
+        }
+
+     }         
+
 
     $scope.oneAtATime = true;
   
@@ -131,6 +153,13 @@ app.controller('SnafuController',["$scope", "$http",function($scope, $http){
    city = "London";
     console.log(city); 
     $scope.getWeather(city);
+     // $scope.marker = {
+     //        id:0,
+     //        coords: {
+     //            latitude: 51,
+     //            longitude: 0.1275
+     //        }
+     //    }
 
 }]);
 
